@@ -12,6 +12,11 @@ interface CompanionSessionPageProps {
   const CompanionSession = async ({ params }: CompanionSessionPageProps) => {
   const { id } = await params;
   const companion = await getCompanion(id);
+  // to check wether the companionid is there or not
+  if (!companion) {
+      console.error("❌ No companion found with id:", id);
+      redirect('/companions');
+    }
   const user = await currentUser();
 
   const { name, subject, title, topic, duration } = companion;
@@ -45,7 +50,7 @@ interface CompanionSessionPageProps {
         </article>
         <CompanionComponent
             {...companion}
-            companionID={id}
+            companionId={id}
             userName={user.firstName}
             userImage={user.imageUrl}
         />
